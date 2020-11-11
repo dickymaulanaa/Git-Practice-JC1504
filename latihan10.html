@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    td, th{
+       height: 30px; 
+       width: 200px;
+       padding-left:10px;
+    }
+        fieldset{
+            width: 900px;
+        }
+</style>
+<body>
+   
+        <fieldset>
+         <legend>Filter</legend>
+        <p> Nama: <input type="text" id='keyword'oninput="filterName()"></p>
+        <p> Harga: <input type="number" name="min" id="min"> - <input type="number" id="max" name="max"></p>
+        <p> Category: 
+         <select id="categoryFilter">
+            <option value="All">All</option>
+            <option value="fastFood">Fast Food</option>
+            <option value="Otomotif">Otomotif</option>
+            <option value="Cloth">Cloth</option>
+            <option value="Fruit">Fruit</option>
+        </select> </p>
+        </fieldset>
+   
+<!-- --------------------------------------------------AtAS------------------------------ -->
+   
+        <fieldset>
+         <legend>Input Data</legend>
+         <table >
+        
+        <tr>
+             <td><input type="text" id="name" placeholder="Nama"></td>
+             <td><input type="number" id="price" placeholder=" Harga"> </td>
+             <td>
+             <select id="kategori">
+            <option value="All">All</option>
+            <option value="Fast Food">Fast Food</option>
+            <option value="Otomotif">Otomotif</option>
+            <option value="Cloth">Cloth</option>
+            <option value="Fruit">Fruit</option>
+            </select>
+        
+            </td>
+            <td><input type="number" id="stok" placeholder=" stok"> </td>
+       </tr>
+    </table> <br>
+             <button onclick="tambah()">Input</button>
+        </fieldset>
+ <!-- ------------------------------------------------TENGAH--------------------------------------- -->
+<fieldset>
+    <legend>Tabel Data</legend>
+ <table>       
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Category</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Stock</th>
+            <th >Buy</th>
+            <th>Action</th>
+        </tr>
+    </thead>                  
+    <tbody id="output"></tbody>
+</table>
+</fieldset>
+
+<!-- ---------------------------------------------------END------------------------------------- -->
+</body>
+<script>
+    // var date= new Date();
+    // var id = date.getTime();
+    var arrProduct = [
+        {id: 1604542659141, nama :"Noodle" , harga : 1000, stok :'2' , kategori : "Fast Food"},
+        {id: 1574678374423, nama :"Hoodie" , harga : 90000, stok :'3' , kategori : "Cloth"},
+        {id: 1574678374212, nama :"Ban" , harga : 30000, stok :'4' , kategori : "Otomotif"},
+        {id: 1574678374813, nama :"Anggur" , harga : 7000, stok :'8' , kategori : "Fruit"},
+        
+    ];
+
+    function showList(){   
+    var output = arrProduct.map(function (val){
+       return (
+           `
+               <tr>
+                   <td>${val.id}</td>
+                   <td>${val.kategori}</td>
+                   <td>${val.nama}</td>
+                   <td>${val.harga}</td>
+                   <td>${val.stok}</td>
+                   
+               </tr>
+           `
+       )
+    })
+   return document.getElementById("output").innerHTML = output.join('');    
+    }
+    showList();
+
+
+    function tambah(){
+     
+        var nama = document.getElementById("name").value;
+        var harga = parseInt(document.getElementById("price").value);
+        var kategori = document.getElementById('kategori').value
+        var stok = parseInt(document.getElementById("stok").value);
+
+        arrProduct.push({
+            id: new Date().getTime(),
+            nama,
+            harga,
+            kategori,
+            stok
+        })
+
+        showList();
+    }
+
+    function filterName(){  
+    var name= document.getElementById("keyword").value;
+    var namaSeachLower = name.toLowerCase();
+    var newArr = arrProduct.filter((val) =>{
+        var nameProdLower =val.nama.toLowerCase();
+        return nameProdLower.includes(namaSeachLower);
+    })
+    // console.log(newArr);
+   // showList(newArr);
+    var output = newArr.map(function (val){
+       return (` <tr>
+                <td>${val.id}</td>
+                <td>${val.kategori}</td>
+                <td>${val.nama}</td>
+                <td>${val.harga}</td>
+                <td>${val.stok}</td>   
+               </tr>`)})
+        return document.getElementById("output").innerHTML = output.join('');    
+    }
+
+    
+
+    
+
+
+</script>
+</html>
